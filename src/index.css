@@ -8,6 +8,13 @@
   --accent: #f59e0b;
 }
 
+
+@layer base {
+  h1, h2, h3, h4 {
+    font-family: 'Teko', sans-serif;
+    letter-spacing: 0.025em;
+  }
+
 body {
   font-family: 'Inter', sans-serif;
   background-color: #f8fafc;
