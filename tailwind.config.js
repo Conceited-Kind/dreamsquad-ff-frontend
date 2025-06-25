@@ -1,12 +1,15 @@
-/** @type {import('tailwindcss').Config} */
-export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+module.exports = {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,jsx}",
+  ],
   theme: {
     extend: {
-      fontFamily: {
-        sans: ["Inter", "sans-serif"],
+      colors: {
+        'dream-blue': '#1e3a8a', // Matches bg-blue-900
+        'dream-green': '#10b981', // Matches green-400
       },
     },
   },
   plugins: [],
-};
+}

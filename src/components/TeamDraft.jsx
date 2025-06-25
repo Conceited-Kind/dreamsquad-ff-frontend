@@ -56,7 +56,7 @@ function TeamDraft() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-20">
+    <div className="container mx-auto px-4 py-8">
       <h2 className="text-3xl font-bold text-center text-white mb-8">
         Draft Your Team (Budget: ${budget.toFixed(1)}m)
       </h2>
@@ -69,7 +69,7 @@ function TeamDraft() {
                 <div
                   {...provided.droppableProps}
                   ref={provided.innerRef}
-                  className="bg-gray-800 p-4 rounded-xl min-h-[400px]"
+                  className="bg-gray-800 p-6 rounded-xl min-h-[400px] shadow-lg"
                 >
                   {availablePlayers.map((player, index) => (
                     <Draggable key={player.id} draggableId={player.id.toString()} index={index}>
@@ -96,7 +96,7 @@ function TeamDraft() {
                 <div
                   {...provided.droppableProps}
                   ref={provided.innerRef}
-                  className="bg-gray-800 p-4 rounded-xl min-h-[400px]"
+                  className="bg-gray-800 p-6 rounded-xl min-h-[400px] shadow-lg"
                 >
                   {mySquad.map((player, index) => (
                     <Draggable key={player.id} draggableId={player.id.toString()} index={index}>
@@ -121,3 +121,5 @@ function TeamDraft() {
     </div>
   );
 }
+
+export default TeamDraft;

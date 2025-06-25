@@ -11,16 +11,16 @@ function NavBar() {
   };
 
   return (
-    <nav className="fixed top-0 w-full bg-blue-900 shadow-lg z-50">
+    <nav className="fixed top-0 w-full bg-dream-blue shadow-lg z-50">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-        <NavLink to="/" className="text-2xl font-bold text-white hover:text-green-400 transition">
+        <NavLink to="/" className="text-2xl font-bold text-white hover:text-dream-green transition">
           DreamSquad FF
         </NavLink>
         <div className="space-x-6 flex items-center">
           <NavLink
             to="/"
             className={({ isActive }) =>
-              `text-white text-lg font-semibold hover:text-green-400 transition ${isActive ? 'text-green-400' : ''}`
+              `text-white text-lg font-semibold hover:text-dream-green transition ${isActive ? 'text-dream-green' : ''}`
             }
           >
             Home
@@ -28,7 +28,7 @@ function NavBar() {
           <NavLink
             to="/draft"
             className={({ isActive }) =>
-              `text-white text-lg font-semibold hover:text-green-400 transition ${isActive ? 'text-green-400' : ''}`
+              `text-white text-lg font-semibold hover:text-dream-green transition ${isActive ? 'text-dream-green' : ''}`
             }
           >
             Draft
@@ -36,7 +36,7 @@ function NavBar() {
           <NavLink
             to="/league"
             className={({ isActive }) =>
-              `text-white text-lg font-semibold hover:text-green-400 transition ${isActive ? 'text-green-400' : ''}`
+              `text-white text-lg font-semibold hover:text-dream-green transition ${isActive ? 'text-dream-green' : ''}`
             }
           >
             League
@@ -44,7 +44,7 @@ function NavBar() {
           {user ? (
             <button
               onClick={handleLogout}
-              className="text-white text-lg font-semibold hover:text-green-400 transition"
+              className="text-white text-lg font-semibold hover:text-dream-green transition"
             >
               Logout
             </button>
@@ -52,7 +52,7 @@ function NavBar() {
             <NavLink
               to="/login"
               className={({ isActive }) =>
-                `text-white text-lg font-semibold hover:text-green-400 transition ${isActive ? 'text-green-400' : ''}`
+                `text-white text-lg font-semibold hover:text-dream-green transition ${isActive ? 'text-dream-green' : ''}`
               }
             >
               Login

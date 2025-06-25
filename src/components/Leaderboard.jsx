@@ -30,8 +30,8 @@ function Leaderboard() {
       {
         label: 'Points',
         data: leaderboard.map((entry) => entry.points),
-        backgroundColor: 'rgba(34, 197, 94, 0.5)', // Green accent
-        borderColor: 'rgba(34, 197, 94, 1)',
+        backgroundColor: 'rgba(16, 185, 129, 0.5)', // dream-green with opacity
+        borderColor: '#10b981', // dream-green
         borderWidth: 1,
       },
     ],
@@ -58,7 +58,7 @@ function Leaderboard() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-20">
+    <div className="container mx-auto px-4 py-8">
       <h2 className="text-3xl font-bold text-center text-white mb-8">Leaderboard</h2>
       <div className="bg-gray-800 p-6 rounded-xl shadow-lg">
         <Bar data={data} options={options} />

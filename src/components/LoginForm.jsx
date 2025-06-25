@@ -25,8 +25,8 @@ function LoginForm() {
   };
 
   return (
-    <div className="fixed inset-0 bg-gray-900 bg-opacity-90 flex items-center justify-center z-50">
-      <div className="bg-gray-700 p-6 rounded-xl shadow-lg w-full max-w-md">
+    <div className="fixed inset-0 bg-dream-blue bg-opacity-90 flex items-center justify-center z-50">
+      <div className="bg-gray-800 p-6 rounded-xl shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold text-white mb-4 text-center">Login</h2>
         <Formik
           initialValues={{ email: '', password: '' }}
@@ -40,7 +40,7 @@ function LoginForm() {
                   name="email"
                   type="email"
                   placeholder="Email"
-                  className="w-full p-3 bg-gray-800 text-white rounded-lg border border-gray-600 focus:outline-none focus:border-blue-500"
+                  className="w-full p-3 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:border-dream-green"
                 />
                 {errors.email && touched.email ? (
                   <div className="text-red-400 text-sm mt-1">{errors.email}</div>
@@ -51,7 +51,7 @@ function LoginForm() {
                   name="password"
                   type="password"
                   placeholder="Password"
-                  className="w-full p-3 bg-gray-800 text-white rounded-lg border border-gray-600 focus:outline-none focus:border-blue-500"
+                  className="w-full p-3 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:border-dream-green"
                 />
                 {errors.password && touched.password ? (
                   <div className="text-red-400 text-sm mt-1">{errors.password}</div>
@@ -61,14 +61,14 @@ function LoginForm() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-500 transition duration-200 font-semibold"
+                className="w-full bg-dream-green text-white p-3 rounded-lg hover:bg-green-600 transition duration-200 font-semibold"
               >
                 Login
               </button>
               <button
                 type="button"
                 onClick={loginWithGoogle}
-                className="w-full bg-red-600 text-white p-3 rounded-lg hover:bg-red-500 transition duration-200 font-semibold mt-2"
+                className="w-full bg-red-600 text-white p-3 mt-2 rounded-lg hover:bg-red-700 transition duration-200 font-semibold"
               >
                 Login with Google
               </button>
@@ -77,7 +77,7 @@ function LoginForm() {
         </Formik>
         <p className="text-center text-gray-300 mt-4">
           Don’t have an account?{' '}
-          <a href="/register" className="text-blue-400 hover:text-blue-300">Register</a>
+          <a href="/register" className="text-dream-green hover:text-green-300">Register</a>
         </p>
       </div>
     </div>
