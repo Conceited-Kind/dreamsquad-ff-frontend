@@ -4,7 +4,6 @@ import Home from "./pages/Home";
 import TeamBuilder from "./pages/TeamBuilder";
 import Dashboard from "./pages/Dashboard";
 import Leagues from "./pages/Leagues";
-import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Landing from "./pages/Landing";
 
@@ -18,7 +17,6 @@ function App() {
         <Route path="/team-builder" element={<TeamBuilder />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/leagues" element={<Leagues />} />
-        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
     </div>
