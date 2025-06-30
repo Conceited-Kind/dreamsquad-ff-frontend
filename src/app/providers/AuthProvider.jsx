@@ -1,5 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
-// Import the new Google login function
+import { createContext, useState, useEffect } from "react";
 import { loginWithEmail, signupWithEmail, loginWithGoogle } from "@/lib/api";
 
 export const AuthContext = createContext();
@@ -12,32 +11,37 @@ export const AuthProvider = ({ children }) => {
     const token = localStorage.getItem('access_token');
     const username = localStorage.getItem('username');
     if (token && username) {
-      setUser({ username });
+      setUser({ username, token });
     }
     setLoading(false);
   }, []);
 
   const handleLogin = async (email, password) => {
-    const response = await loginWithEmail(email, password);
-    if (response.data.access_token) {
-      localStorage.setItem('access_token', response.data.access_token);
-      localStorage.setItem('username', response.data.username);
-      setUser({ username: response.data.username });
+    try {
+      const response = await loginWithEmail(email, password);
+      if (response.data.access_token) {
+        localStorage.setItem('access_token', response.data.access_token);
+        localStorage.setItem('username', response.data.username);
+        setUser({ username: response.data.username, token: response.data.access_token });
+      } else {
+        console.error("Login failed, no token received:", response.data);
+      }
+    } catch (error) {
+      console.error("Login error:", error);
     }
   };
 
-  // NEW: Function to handle the Google login flow
   const handleGoogleLogin = async (googleToken) => {
     try {
-        const response = await loginWithGoogle(googleToken);
-        if (response.data.access_token) {
-            localStorage.setItem('access_token', response.data.access_token);
-            localStorage.setItem('username', response.data.username);
-            setUser({ username: response.data.username });
-        }
+      const response = await loginWithGoogle(googleToken);
+      if (response.data.access_token) {
+        localStorage.setItem('access_token', response.data.access_token);
+        localStorage.setItem('username', response.data.username);
+        setUser({ username: response.data.username, token: response.data.access_token });
+      }
     } catch (error) {
-        console.error("Google login failed on backend:", error);
-        throw error.response?.data || new Error("Could not verify Google login.");
+      console.error("Google login failed on backend:", error);
+      throw error.response?.data || new Error("Could not verify Google login.");
     }
   };
 
@@ -52,9 +56,8 @@ export const AuthProvider = ({ children }) => {
     user,
     loading,
     login: handleLogin,
-    googleLogin: handleGoogleLogin, // Expose the new function
+    googleLogin: handleGoogleLogin,
     logout: handleLogout,
-    // We keep signup separate as it doesn't log the user in directly
     signup: signupWithEmail,
   };
 

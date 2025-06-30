@@ -1,4 +1,4 @@
-
+// This configuration file is used to set up module resolution for a JavaScript project
 {
   "compilerOptions": {
     "baseUrl": "src",

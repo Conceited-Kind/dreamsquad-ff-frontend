@@ -72,39 +72,84 @@ const useTeamBuilders = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const getAuthHeaders = () => ({ Authorization: `Bearer ${localStorage.getItem('access_token')}` });
-    const api = axios.create({ baseURL: 'http://localhost:5000', headers: getAuthHeaders() });
+    const getAuthHeaders = () => {
+        const token = localStorage.getItem('access_token');
+        console.log('Token used:', token ? 'Valid token' : 'No token found');
+        return { Authorization: `Bearer ${token}` };
+    };
+    const api = axios.create({ baseURL: 'http://localhost:5000' });
+
+    // Add Axios interceptor for token expiry
+    api.interceptors.response.use(
+        response => response,
+        async error => {
+            if (error.response?.status === 401) {
+                console.log('Token expired, redirecting to login');
+                localStorage.removeItem('access_token');
+                window.location.href = '/login';
+            }
+            return Promise.reject(error);
+        }
+    );
 
     const fetchData = useCallback(async () => {
         try {
-            const [teamRes, playersRes] = await Promise.all([api.get('/team'), api.get('/players')]);
+            console.log('Fetching team and players...');
+            const [teamRes, playersRes] = await Promise.all([
+                api.get('/teams/my-team', { headers: getAuthHeaders() }),
+                api.get('/players', { headers: getAuthHeaders() })
+            ]);
+            console.log('Team response:', teamRes.data);
+            console.log('Players response:', playersRes.data);
             setTeam(teamRes.data.players || []);
             setBudget(teamRes.data.budget_left || 100.0);
             setAllPlayers(playersRes.data || []);
         } catch (err) {
-            setError("Could not load team data.");
+            setError(err.response?.data?.message || "Could not load team data.");
+            console.error('Fetch error:', err.response?.data || err);
         } finally {
             setLoading(false);
         }
     }, []);
 
-    useEffect(() => { fetchData(); }, [fetchData]);
+    useEffect(() => {
+        fetchData();
+        console.log('Team state updated:', team);
+    }, [fetchData, team]);
 
     const addPlayer = async (player) => {
-        if (team.some(p => p.id === player.id)) return;
+        if (team.some(p => p.id === player.id)) {
+            console.log(`Player ${player.id} already in team`);
+            return;
+        }
         try {
-            await api.post('/team/draft', { player_id: player.id });
+            console.log(`Drafting player ${player.id}: ${player.name}`);
+            const response = await api.post('/teams/draft', { player_id: player.id }, { headers: getAuthHeaders() });
+            console.log('Draft response:', response.data);
             await fetchData();
         } catch (err) {
+            console.error('Draft error:', err.response?.data || err);
             alert(err.response?.data?.message || "Could not draft player.");
         }
     };
 
     const removePlayer = async (playerId) => {
         try {
-            await api.post('/team/remove_player', { player_id: playerId });
-            await fetchData();
+            console.log(`Removing player ${playerId}`);
+            console.log('Current team:', team);
+            if (!team.some(p => p.id === playerId)) {
+                console.log(`Player ${playerId} not found in team`);
+                alert('Player not in your team.');
+                return;
+            }
+            const response = await api.post('/teams/remove_player', { player_id: playerId }, { headers: getAuthHeaders() });
+            console.log('Remove response:', response.data);
+            // Update team and budget states immediately
+            setTeam(prev => prev.filter(p => p.id !== playerId));
+            setBudget(prev => prev + (allPlayers.find(p => p.id === playerId)?.value || 0));
+            await fetchData(); // Refresh data to ensure consistency
         } catch (err) {
+            console.error('Remove error:', err.response?.data || err);
             alert(err.response?.data?.message || "Could not remove player.");
         }
     };
