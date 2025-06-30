@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .feature-card {
+    @apply bg-white/10 backdrop-blur-sm p-6 rounded-xl border border-white/20 hover:bg-white/20 transition-colors;
+  }
+  .auth-input {
+    @apply w-full p-3 border-b-2 border-gray-300 focus:border-dream-green bg-transparent placeholder-gray-400 transition-colors;
+  }
+  .player-card {
+    @apply bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-all border-l-4 border-dream-green;
+  }
+}
+
+@layer utilities {
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+}
+
+body {
+  background: #f6fafd;
+}
