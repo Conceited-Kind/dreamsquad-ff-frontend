@@ -2,44 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --primary: #1e3a8a;
-  --secondary: #10b981;
-  --accent: #f59e0b;
+@layer components {
+  .feature-card {
+    @apply bg-white/10 backdrop-blur-sm p-6 rounded-xl border border-white/20 hover:bg-white/20 transition-colors;
+  }
+  .auth-input {
+    @apply w-full p-3 border-b-2 border-gray-300 focus:border-dream-green bg-transparent placeholder-gray-400 transition-colors;
+  }
+  .player-card {
+    @apply bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-all border-l-4 border-dream-green;
+  }
 }
 
-
-@layer base {
-  h1, h2, h3, h4 {
-    font-family: 'Teko', sans-serif;
-    letter-spacing: 0.025em;
+@layer utilities {
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
+}
 
 body {
-  font-family: 'Inter', sans-serif;
-  background-color: #f8fafc;
-}
-
-/* Custom button styles */
-.btn-primary {
-  @apply bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition-all;
-}
-
-.btn-secondary {
-  @apply bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-lg transition-all;
-}
-
-/* Player card styles */
-.player-card {
-  @apply bg-white rounded-xl shadow-md p-4 mb-3 border-l-4 border-blue-500 hover:shadow-lg transition-all;
-}
-
-/* League card styles */
-.league-card {
-  @apply bg-white rounded-xl shadow-md p-4 mb-4 border border-gray-200 hover:shadow-lg transition-all;
-}
-
-/* Form input styles */
-.form-input {
-  @apply w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500;
+  background: #f6fafd;
 }

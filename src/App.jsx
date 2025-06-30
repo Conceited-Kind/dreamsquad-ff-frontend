@@ -1,26 +1,16 @@
-import { Routes, Route } from "react-router-dom";
-import NavBar from "./components/NavBar";
-import Home from "./pages/Home";
-import TeamBuilder from "./pages/TeamBuilder";
-import Dashboard from "./pages/Dashboard";
-import Leagues from "./pages/Leagues";
-import Register from "./pages/Register";
-import Landing from "./pages/Landing";
+import { BrowserRouter } from 'react-router-dom'
+import { AuthProvider } from '@/app/providers/AuthProvider'
+import { ThemeProvider } from '@/app/providers/ThemeProvider'
+import AppLayout from '@/app/layout/AppLayout'
 
-function App() {
+export default function App() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <NavBar />
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/team-builder" element={<TeamBuilder />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/leagues" element={<Leagues />} />
-        <Route path="/register" element={<Register />} />
-      </Routes>
-    </div>
-  );
+    <BrowserRouter>
+      <ThemeProvider>
+        <AuthProvider>
+          <AppLayout />
+        </AuthProvider>
+      </ThemeProvider>
+    </BrowserRouter>
+  )
 }
-
-export default App;

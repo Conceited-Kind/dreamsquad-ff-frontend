@@ -1,70 +1,91 @@
-import { Link } from "react-router-dom";
+import { useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '@/app/providers/AuthProvider';
+import AuthCard from '@/features/auth/components/AuthCard';
+
+const FEATURES = [
+	{
+		icon: (
+			<span role="img" aria-label="Trophy" className="text-5xl mb-4">
+				🏆
+			</span>
+		),
+		title: 'Compete & Win',
+		description: 'Join leagues and climb the leaderboards',
+	},
+	{
+		icon: (
+			<span role="img" aria-label="Stats" className="text-5xl mb-4">
+				📊
+			</span>
+		),
+		title: 'Real-Time Stats',
+		description: 'Live updates from actual matches',
+	},
+	{
+		icon: (
+			<span role="img" aria-label="Friends" className="text-5xl mb-4">
+				👥
+			</span>
+		),
+		title: 'Play with Friends',
+		description: 'Create private leagues with your crew',
+	},
+	{
+		icon: (
+			<span role="img" aria-label="Tools" className="text-5xl mb-4">
+				🛠️
+			</span>
+		),
+		title: 'Easy Team Building',
+		description: 'Drag & drop interface',
+	},
+];
 
 export default function Landing() {
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 to-blue-700">
-      <div className="container mx-auto px-4 py-20">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-5xl font-bold text-white mb-6">Build Your Dream Squad</h1>
-          <p className="text-xl text-blue-100 mb-10">
-            The simplest fantasy football platform. No complex rules, no premium fees - just pure football fun with friends.
-          </p>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-            <div className="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm">
-              <h3 className="text-2xl font-semibold text-white mb-3">Compete & Win</h3>
-              <p className="text-blue-100">Join leagues and climb the leaderboards</p>
-            </div>
-            <div className="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm">
-              <h3 className="text-2xl font-semibold text-white mb-3">Real-Time Stats</h3>
-              <p className="text-blue-100">Live updates from actual matches</p>
-            </div>
-            <div className="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm">
-              <h3 className="text-2xl font-semibold text-white mb-3">Play with Friends</h3>
-              <p className="text-blue-100">Create private leagues with your crew</p>
-            </div>
-            <div className="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm">
-              <h3 className="text-2xl font-semibold text-white mb-3">Easy Team Building</h3>
-              <p className="text-blue-100">Drag & drop interface</p>
-            </div>
-          </div>
-          
-          <div className="bg-white rounded-xl shadow-xl p-8 max-w-md mx-auto">
-            <h2 className="text-2xl font-bold text-blue-900 mb-6">Join DreamSquad</h2>
-            <p className="text-gray-600 mb-6">Start building your winning team today</p>
-            
-            <div className="space-y-4">
-              <input 
-                type="email" 
-                placeholder="you@email.com" 
-                className="form-input"
-              />
-              <input 
-                type="password" 
-                placeholder="Password" 
-                className="form-input"
-              />
-              <button className="btn-primary w-full">
-                Login to DreamSquad
-              </button>
-              <button className="btn-secondary w-full">
-                Sign Up
-              </button>
-            </div>
-            
-            <div className="my-4 flex items-center">
-              <div className="flex-1 border-t border-gray-300"></div>
-              <span className="px-4 text-gray-500">OR CONTINUE WITH</span>
-              <div className="flex-1 border-t border-gray-300"></div>
-            </div>
-            
-            <button className="w-full flex items-center justify-center gap-2 bg-white border border-gray-300 rounded-lg py-2 px-4 text-gray-700 hover:bg-gray-50 transition">
-              <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" className="w-5 h-5" />
-              Continue with Google
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+	const { user, loading } = useContext(AuthContext);
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (!loading && user) {
+			navigate('/dashboard', { replace: true });
+		}
+	}, [user, loading, navigate]);
+
+	return (
+		<div className="flex flex-col min-h-screen bg-gradient-to-r from-green-400 to-green-500">
+			<div className="flex flex-1 flex-col md:flex-row">
+				{/* Left: Features */}
+				<div className="flex-1 flex flex-col justify-center px-12 py-10">
+					<h1 className="text-5xl font-bold mb-4 text-white">
+						Build Your <span className="text-yellow-400">Dream Squad</span>
+					</h1>
+					<p className="text-lg text-white/90 mb-10">
+						The simplest fantasy football platform. No complex rules, no premium
+						fees – just pure football fun with friends.
+					</p>
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+						{FEATURES.map((feature) => (
+							<div
+								key={feature.title}
+								className="bg-white/20 rounded-2xl p-10 flex flex-col items-center shadow-xl"
+							>
+								{feature.icon}
+								<div className="font-bold text-xl text-white mb-2">
+									{feature.title}
+								</div>
+								<div className="text-white/90 text-center">
+									{feature.description}
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+				{/* Right: Auth Card */}
+				<div className="flex-1 flex items-center justify-center px-4 py-10">
+					<AuthCard />
+				</div>
+			</div>
+		</div>
+	);
 }
