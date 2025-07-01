@@ -1,13 +1,13 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '@/app/providers/AuthProvider';
-import { GoogleLogin } from '@react-oauth/google'; 
+import { GoogleLogin } from '@react-oauth/google';
 import PrimaryButton from '@/ui/buttons/PrimaryButton';
 import AuthInput from '@/ui/inputs/AuthInput';
 
 export default function AuthCard() {
   const [mode, setMode] = useState('login');
   const isLoginMode = mode === 'login';
-  
+
   const { login, signup, googleLogin } = useContext(AuthContext);
 
   const [username, setUsername] = useState('');
@@ -40,9 +40,18 @@ export default function AuthCard() {
     setLoading(true);
     setError('');
     try {
-      await googleLogin(credentialResponse.credential);
-    } catch (err) {
-      setError(err.message || "Google Login failed.");
+      const response = await fetch('https://dreamsquad-ff-backend-2.onrender.com/auth/google', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id_token: credentialResponse.credential })
+      });
+      if (!response.ok) throw new Error(`Google login failed: ${response.status}`);
+      const data = await response.json();
+      await googleLogin(data.access_token); // Pass the backend's JWT to AuthContext
+      console.log('Google login success:', data);
+    } catch (error) {
+      setError(error.message || 'Google login failed');
+      console.error('Google login failed:', error);
     }
     setLoading(false);
   };
@@ -59,7 +68,7 @@ export default function AuthCard() {
 
       <form className="space-y-4" onSubmit={handleSubmit}>
         {!isLoginMode && (
-           <AuthInput placeholder="Username" type="text" value={username} onChange={e => setUsername(e.target.value)} required />
+          <AuthInput placeholder="Username" type="text" value={username} onChange={e => setUsername(e.target.value)} required />
         )}
         <AuthInput placeholder="you@email.com" type="email" value={email} onChange={e => setEmail(e.target.value)} required />
         <AuthInput type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} required />
@@ -71,17 +80,18 @@ export default function AuthCard() {
           {loading ? (isLoginMode ? 'Logging in...' : 'Signing up...') : (isLoginMode ? 'Login to DreamSquad' : 'Create Account')}
         </PrimaryButton>
       </form>
-      
-      <div className="flex items-center my-4"><hr className="flex-grow border-gray-300" /><span className="mx-2 text-gray-400 text-sm">OR</span><hr className="flex-grow border-gray-300" /></div>
-      
-      {/* FIX: Use the GoogleLogin component which provides the id_token */}
+
+      <div className="flex items-center my-4">
+        <hr className="flex-grow border-gray-300" />
+        <span className="mx-2 text-gray-400 text-sm">OR</span>
+        <hr className="flex-grow border-gray-300" />
+      </div>
+
       <div className="flex justify-center">
         <GoogleLogin
-            onSuccess={handleGoogleSuccess}
-            onError={() => {
-                setError("Google Login failed.");
-            }}
-            useOneTap
+          onSuccess={handleGoogleSuccess}
+          onError={() => setError('Google login failed')}
+          useOneTap
         />
       </div>
     </div>
