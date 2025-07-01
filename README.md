@@ -48,3 +48,8 @@ To run this project on your local machine, follow these steps:
         ```
     -   The application will be available at `http://localhost:5173`.
 
+## Repository
+
+-   **Frontend GitHub Repository:** [https://github.com/Conceited-Kind/dreamsquad-ff-frontend](https://github.com/Conceited-Kind/dreamsquad-ff-frontend)  
+    (Replace with your actual frontend repo URL if different.)
+-   **Backend GitHub Repository:** [https://github.com/Conceited-Kind/dreamsquad-ff-backend](https://github.com/Conceited-Kind/dreamsquad-ff-backend)
