@@ -7,9 +7,7 @@ import AuthInput from '@/ui/inputs/AuthInput';
 export default function AuthCard() {
   const [mode, setMode] = useState('login');
   const isLoginMode = mode === 'login';
-
   const { login, signup, googleLogin } = useContext(AuthContext);
-
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -47,7 +45,7 @@ export default function AuthCard() {
       });
       if (!response.ok) throw new Error(`Google login failed: ${response.status}`);
       const data = await response.json();
-      await googleLogin(data.access_token); // Pass the backend's JWT to AuthContext
+      await googleLogin(data.access_token);
       console.log('Google login success:', data);
     } catch (error) {
       setError(error.message || 'Google login failed');
@@ -91,9 +89,12 @@ export default function AuthCard() {
         <GoogleLogin
           onSuccess={handleGoogleSuccess}
           onError={() => setError('Google login failed')}
-          useOneTap
+          useOneTap={false} // Disable useOneTap to avoid FedCM issues
         />
       </div>
+      <p className="text-sm text-gray-500 text-center mt-2">
+        If Google Login fails, enable third-party sign-in in your browser settings (lock icon in the URL bar).
+      </p>
     </div>
   );
 }
