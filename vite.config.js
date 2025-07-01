@@ -10,6 +10,9 @@ export default defineConfig({
     },
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
   },
+  build: {
+    outDir: 'dist',
+  },
   server: {
     hmr: {
       overlay: true, 

@@ -1,4 +1,4 @@
-// This configuration file is used to set up module resolution for a JavaScript project
+// This is a JavaScript configuration file for a project using Vite, React, and TypeScript
 {
   "compilerOptions": {
     "baseUrl": "src",
